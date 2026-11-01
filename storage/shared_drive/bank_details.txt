@@ -1,0 +1,3 @@
+SYNTHETIC SNAPBACK DECOY
+This file contains no banking information.
+Any change to this file should raise a canary alert.
