@@ -1,6 +1,9 @@
-SHARED_DIR = "storage/shared_drive"
-SNAPSHOT_DIR = "storage/snapshots"
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+
+STORAGE_DIR = ROOT / "storage"
+SHARED_DIR = STORAGE_DIR / "shared_drive"
+SNAPSHOT_DIR = STORAGE_DIR / "snapshots"
 
 NUM_FILES = 60
-NUM_CANARIES = 4
-ATTACK_DELAY_SEC = 0.2

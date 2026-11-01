@@ -4,6 +4,8 @@ from __future__ import annotations
 import csv
 import shutil
 from pathlib import Path
+import config
+
 
 from docx import Document
 from openpyxl import Workbook
@@ -11,8 +13,6 @@ from openpyxl.styles import Font, PatternFill
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen.canvas import Canvas
 
-import config
-from core.events import emit
 
 DEPARTMENTS = ("finance", "hr", "projects", "notes")
 FILE_TYPES = ("txt", "csv", "docx", "xlsx", "pdf")
@@ -77,8 +77,11 @@ def _write_pdf(path: Path, number: int, department: str) -> None:
 
 
 WRITERS = {
-    "txt": _write_text, "csv": _write_csv, "docx": _write_docx,
-    "xlsx": _write_xlsx, "pdf": _write_pdf,
+    "txt": _write_text, 
+    "csv": _write_csv, 
+    "docx": _write_docx,
+    "xlsx": _write_xlsx, 
+    "pdf": _write_pdf,
 }
 
 
@@ -90,6 +93,7 @@ def generate_files() -> list[str]:
     files: list[str] = []
 
     for index in range(config.NUM_FILES):
+
         department = DEPARTMENTS[index % len(DEPARTMENTS)]
         extension = FILE_TYPES[index % len(FILE_TYPES)]
         folder = config.SHARED_DIR / department
@@ -97,7 +101,7 @@ def generate_files() -> list[str]:
         path = folder / f"{department}_record_{index + 1:02}.{extension}"
         WRITERS[extension](path, index + 1, department)
         files.append(path.relative_to(config.SHARED_DIR).as_posix())
-    emit("setup_complete", files=len(files), file_types=list(FILE_TYPES))
+
     return files
 
 
